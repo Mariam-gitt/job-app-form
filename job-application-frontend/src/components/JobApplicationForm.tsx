@@ -160,7 +160,7 @@ export default function JobApplicationForm() {
     try {
       // Send the application to our Express backend.
       const response = await fetch(
-        "http://localhost:5000/api/applications",
+        "https://job-application-backend-topaz.vercel.app/api/applications",
         {
           method: "POST",
 
