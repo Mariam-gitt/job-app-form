@@ -1,0 +1,400 @@
+
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #e5e5e5;
+  color: #2f2f2f;
+  font-family: Inter, Arial, sans-serif;
+}
+
+/* ================================
+   SUCCESS POPUP
+================================ */
+
+.success-popup {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  min-width: 300px;
+  padding: 16px 20px;
+
+  background: #ffffff;
+  color: #2f2f2f;
+
+  border: 2px solid #f5c400;
+  border-radius: 14px;
+
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
+
+  animation: popup-in 0.3s ease;
+}
+
+.success-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+  background: #f5c400;
+  color: #ffffff;
+
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.success-popup strong {
+  display: block;
+  margin-bottom: 3px;
+
+  color: #333333;
+  font-size: 14px;
+}
+
+.success-popup p {
+  margin: 0;
+  color: #777777;
+  font-size: 13px;
+}
+
+@keyframes popup-in {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================================
+   FORM CARD
+================================ */
+
+.job-form {
+  width: min(760px, calc(100% - 32px));
+  margin: 50px auto;
+  padding: 44px;
+  box-sizing: border-box;
+
+  background: #f2f2f2;
+  border: 2px solid #bdbdbd;
+  border-radius: 24px;
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.12),
+    0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+/* ================================
+   HEADER
+================================ */
+
+.form-header {
+  margin-bottom: 46px;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  color: #777777;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.form-header h1 {
+  margin: 0;
+  color: #333333;
+  font-size: 36px;
+  line-height: 1.2;
+}
+
+.form-header p:last-child {
+  margin-top: 14px;
+  color: #707070;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ================================
+   SECTIONS
+================================ */
+
+.form-section {
+  margin-bottom: 44px;
+  padding-bottom: 36px;
+  border-bottom: 1px solid #cccccc;
+}
+
+.form-section:last-of-type {
+  border-bottom: none;
+}
+
+.form-section h2 {
+  margin: 0 0 28px;
+  color: #4a4a4a;
+  font-size: 22px;
+  font-weight: 750;
+}
+
+/* ================================
+   PERSONAL INFORMATION
+================================ */
+
+.personal-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px 20px;
+}
+
+.personal-fields .field {
+  margin-bottom: 0;
+}
+
+.personal-fields .full-width {
+  grid-column: 1 / -1;
+}
+
+/* ================================
+   GENERAL FIELDS
+================================ */
+
+.field {
+  margin-bottom: 27px;
+}
+
+.field:last-child {
+  margin-bottom: 0;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 9px;
+  color: #414141;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+/* ================================
+   INPUTS
+================================ */
+
+.field input,
+.field textarea {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 14px 15px;
+
+  border: 1.5px solid #c4c4c4;
+  border-radius: 11px;
+
+  background: #fafafa;
+  color: #2f2f2f;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.field input {
+  min-height: 47px;
+}
+
+.field textarea {
+  min-height: 115px;
+  resize: vertical;
+}
+
+/* ================================
+   INPUT FOCUS
+================================ */
+
+.field input:focus,
+.field textarea:focus {
+  border-color: #f5c400;
+  background: #ffffff;
+
+  box-shadow:
+    0 0 0 3px rgba(245, 196, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* ================================
+   PLACEHOLDERS
+================================ */
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: #999999;
+}
+
+/* ================================
+   RADIO / CHECKBOX GROUPS
+================================ */
+
+.option-group {
+  margin: 28px 0;
+  padding: 20px 22px;
+
+  border: 1.5px solid #c7c7c7;
+  border-radius: 15px;
+
+  background: #e7e7e7;
+}
+
+.option-group legend {
+  padding: 0 9px;
+  color: #555555;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.option {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  margin: 8px 20px 8px 0;
+
+  color: #555555;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.option input {
+  accent-color: #f5c400;
+  cursor: pointer;
+}
+
+/* ================================
+   ERRORS
+================================ */
+
+.error {
+  margin: 7px 0 0;
+  color: #c62828;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* ================================
+   FILE UPLOAD
+================================ */
+
+.field input[type="file"] {
+  min-height: auto;
+  padding: 11px;
+
+  background: #fafafa;
+  border-style: dashed;
+
+  cursor: pointer;
+}
+
+/* ================================
+   SUBMIT BUTTON
+================================ */
+
+.submit-button {
+  width: 100%;
+  margin-top: 4px;
+  padding: 16px 20px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #f5c400;
+  color: #252525;
+
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 750;
+
+  cursor: pointer;
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.submit-button:hover {
+  background: #e0b300;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 12px 25px rgba(0, 0, 0, 0.16);
+}
+
+.submit-button:active {
+  transform: translateY(0);
+}
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 600px) {
+  .job-form {
+    width: calc(100% - 20px);
+    margin: 20px auto;
+    padding: 28px 20px;
+    border-radius: 18px;
+  }
+
+  .form-header {
+    margin-bottom: 35px;
+  }
+
+  .form-header h1 {
+    font-size: 29px;
+  }
+
+  .form-section {
+    margin-bottom: 35px;
+    padding-bottom: 28px;
+  }
+
+  .personal-fields {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .personal-fields .full-width {
+    grid-column: auto;
+  }
+
+  .option {
+    display: flex;
+  }
+
+  .success-popup {
+    top: 15px;
+    right: 10px;
+    left: 10px;
+    min-width: auto;
+  }
+}

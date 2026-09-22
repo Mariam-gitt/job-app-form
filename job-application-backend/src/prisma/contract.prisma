@@ -1,0 +1,22 @@
+// Use Prisma 8's contract format.
+model Application {
+  id                  Int      @id @default(autoincrement())
+  name                String
+  email               String
+  phone               String
+  location            String
+  experienceLevel     String
+  yearsOfExperience   Int
+  currentlyEmployed   Boolean
+  company             String?
+  jobTitle            String?
+  skills              String[]
+  projectName         String?
+  projectGithub       String?
+  projectDescription  String?
+  github              String?
+  linkedin            String?
+  portfolio            String?
+  resumeUrl           String?
+  createdAt           TimestamptzString @default(now())
+}
