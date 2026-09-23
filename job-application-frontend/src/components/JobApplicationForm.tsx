@@ -130,78 +130,110 @@ export default function JobApplicationForm() {
   const currentlyEmployed = watch("currentlyEmployed");
 
   // This function runs only when the form passes validation.
-  async function onSubmit(data: JobApplicationData) {
-    // Convert the form data into the shape expected by our backend.
-    const applicationData = {
-      name: data.name,
-      email: data.email,
-      phone: data.phone,
-      location: data.location,
-      experienceLevel: data.experienceLevel,
-      yearsOfExperience: data.yearsOfExperience,
+  
+ 
 
-      // Convert "yes"/"no" into true/false for PostgreSQL.
-      currentlyEmployed: data.currentlyEmployed === "yes",
+async function onSubmit(data: JobApplicationData) {
+  // Store the uploaded resume URL.
+  let resumeUrl = null;
 
-      company: data.company || null,
-      jobTitle: data.jobTitle || null,
-      skills: data.skills,
-      projectName: data.projectName || null,
-      projectGithub: data.projectGithub || null,
-      projectDescription: data.projectDescription || null,
-      github: data.github || null,
-      linkedin: data.linkedin || null,
-      portfolio: data.portfolio || null,
+  // Upload the resume first, if the user selected one.
+  if (data.resume?.[0]) {
+    // FormData is used because we are sending an actual file.
+    const resumeFormData = new FormData();
 
-      // Resume uploading will be handled separately later.
-      resumeUrl: null,
-    };
+    // "resume" must match upload.single("resume") in the backend.
+    resumeFormData.append("resume", data.resume[0]);
 
-    try {
-      // Send the application to our Express backend.
-      const response = await fetch(
-        "https://job-application-backend-topaz.vercel.app/api/applications",
-        {
-          method: "POST",
+    // Send the file to the resume upload endpoint.
+    const uploadResponse = await fetch(
+      "https://job-application-backend-topaz.vercel.app/api/upload-resume",
+      {
+        method: "POST",
+        body: resumeFormData,
+      },
+    );
 
-          // Tell Express that we are sending JSON.
-          headers: {
-            "Content-Type": "application/json",
-          },
+    // Read the backend response.
+    const uploadResult = await uploadResponse.json();
 
-          // Convert our JavaScript object into JSON.
-          body: JSON.stringify(applicationData),
-        },
+    // Stop if the upload failed.
+    if (!uploadResponse.ok) {
+      throw new Error(
+        uploadResult.message || "Failed to upload resume",
       );
-
-      // Convert the backend response from JSON into a JavaScript object.
-      const result = await response.json();
-
-      // Check whether the backend accepted the application.
-      if (!response.ok) {
-        throw new Error(
-          result.message || "Failed to submit application",
-        );
-      }
-
-      // Show the saved application in the browser console.
-      console.log("Application saved:", result);
-
-      // Clear the form.
-      reset();
-
-      // Show the success popup.
-      setIsSubmitted(true);
-
-      // Hide the popup after 4 seconds.
-      setTimeout(() => {
-        setIsSubmitted(false);
-      }, 4000);
-    } catch (error) {
-      // Show any request/server errors in the console.
-      console.error("Submission failed:", error);
     }
+
+    // Save the URL returned by Vercel Blob.
+    resumeUrl = uploadResult.resumeUrl;
   }
+
+  // Prepare the application data for PostgreSQL.
+  const applicationData = {
+    name: data.name,
+    email: data.email,
+    phone: data.phone,
+    location: data.location,
+    experienceLevel: data.experienceLevel,
+    yearsOfExperience: data.yearsOfExperience,
+    currentlyEmployed: data.currentlyEmployed === "yes",
+    company: data.company || null,
+    jobTitle: data.jobTitle || null,
+    skills: data.skills,
+    projectName: data.projectName || null,
+    projectGithub: data.projectGithub || null,
+    projectDescription: data.projectDescription || null,
+    github: data.github || null,
+    linkedin: data.linkedin || null,
+    portfolio: data.portfolio || null,
+
+    // Store only the resume URL in PostgreSQL.
+    resumeUrl: resumeUrl,
+  };
+
+  try {
+    // Send the application data as JSON.
+    const response = await fetch(
+      "https://job-application-backend-topaz.vercel.app/api/applications",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(applicationData),
+      },
+    );
+
+    // Read the backend response.
+    const result = await response.json();
+
+    // Handle an unsuccessful application submission.
+    if (!response.ok) {
+      throw new Error(
+        result.message || "Failed to submit application",
+      );
+    }
+
+    // Confirm successful submission in the console.
+    console.log("Application saved:", result);
+
+    // Clear the form.
+    reset();
+
+    // Show the success popup.
+    setIsSubmitted(true);
+
+    // Hide the popup after 4 seconds.
+    setTimeout(() => {
+      setIsSubmitted(false);
+    }, 4000);
+  } catch (error) {
+    // Log any submission error.
+    console.error("Submission failed:", error);
+  }
+}
+
+
 
   return (
     <>

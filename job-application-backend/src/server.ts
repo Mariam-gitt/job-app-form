@@ -1,9 +1,12 @@
 import express from "express";
 import cors from "cors";
 import { db } from "./prisma/db.js";
+import multer from "multer";
+import { put } from "@vercel/blob";
+// We'll upload request.file to Vercel Blob here.
 
 const app = express();
-
+const upload = multer({ storage: multer.memoryStorage() });
 app.use(cors());
 app.use(express.json());
 
@@ -18,6 +21,38 @@ app.get("/api/test-db", async (_request, response) => {
 
   response.json(applications);
 });
+
+app.post(
+  "/api/upload-resume",
+  upload.single("resume"),
+  async (request, response) => {
+    try {
+      if (!request.file) {
+        return response.status(400).json({
+          message: "Resume is required",
+        });
+      }
+
+      const blob = await put(
+        request.file.originalname,
+        request.file.buffer,
+        {
+          access: "private",
+        },
+      );
+
+      return response.status(200).json({
+        resumeUrl: blob.url,
+      });
+    } catch (error) {
+      console.error(error);
+
+      return response.status(500).json({
+        message: "Failed to upload resume",
+      });
+    }
+  },
+);
 
 
 app.post("/api/applications", async (request, response) => {
